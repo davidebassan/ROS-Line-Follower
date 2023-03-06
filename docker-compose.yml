@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  ros:
+    build:
+      context: .
+    volumes:
+      - ./catkin_ws/src:/root/catkin_ws/src
+    ports:
+      - "6080:80"
