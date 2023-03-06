@@ -1,7 +1,9 @@
 # ROS Noetic Container For Docker
-* DISCLAIM: Image for arm64 (Apple Silicon), check docker hub to find your version and change the DockerFile 
-Change in the Dockerfile the first line
-amd64 | FROM dorowu/ubuntu-desktop-lxde-vnc:focal
+**DISCLAIM**: Image for arm64 (Apple Silicon), check docker hub to find your version and change in the Dockerfile the first line
+
+| Arc  | Instruction |
+| --- | --- |
+| amd64 | FROM dorowu/ubuntu-desktop-lxde-vnc:focal |
 
 
 1. docker-compose up (for the first time use --build)
