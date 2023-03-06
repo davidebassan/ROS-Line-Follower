@@ -32,6 +32,7 @@ echo "export ROS_IP=127.0.0.1" >> ~/.bashrc
 grep -F "ROS_MASTER_URI" ~/.bashrc ||
 echo "export ROS_MASTER_URI=http://\$ROS_IP:11311" >> ~/.bashrc
 
+echo "export TURTLEBOT3_MODEL=waffle_pi" >> ~/.bashrc
 echo ""
 echo "Success installing ROS ${ROS_DISTRO}"
 echo "Run 'source ~/.bashrc'"
