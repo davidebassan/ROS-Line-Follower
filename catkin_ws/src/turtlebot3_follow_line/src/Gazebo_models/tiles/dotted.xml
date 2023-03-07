@@ -1,0 +1,64 @@
+<model name={{base_tile_number}}>
+    <static>true</static>
+    <pose>{{pose}}</pose>
+    <link name={{tile_number}}>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.25 0.25 0.01</size>
+          </box>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name={{visual_number}}>
+        <geometry>
+          <box>
+            <size>0.25 0.25 0.01</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/White</name>
+          </script>
+        </material>
+      </visual>
+
+      <visual name="line1_{{line_number}}">
+        <pose>-0.1 0 0.0075 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.04 {{line_width}} 0.001</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Black</name>
+          </script>
+        </material>
+      </visual>
+
+      <visual name="line2_{{line_number}}">
+        <pose>0.1 0 0.0075 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.05 {{line_width}} 0.001</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Black</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>

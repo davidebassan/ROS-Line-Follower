@@ -7,11 +7,11 @@ from jinja2 import Template
 
 
 # CONFIG VARIABLES
-NUMBER_GENERATIONS = 10
+NUMBER_GENERATIONS = 1
 
 # Dimensions
 TILES_DIR = "Gazebo_models/tiles/"
-TILES_TYPE = ["straight.xml"]
+TILES_TYPE = ["dotted.xml"]
 TILES_SIZE = [0.25, 0.25, 0.01]
 EVACUATION_ZONE_SIZE = [1.2, 0.9, 0.01]
 NUMBER_TILES = random.randint(40,50)
@@ -65,11 +65,7 @@ for i in range(NUMBER_GENERATIONS):
 
 
 
-# TODO: Print in a txt file all infos about the track
-
-
-
-
+# TODO: Print in a txt file all infos about the track or even better, create an image of the track
 
 # NOTE: Every sdf world should include at the end the ground_plane, (for the gravity) 
 # TODO: Check friction and stuff
