@@ -1,6 +1,6 @@
 <sdf version="1.7">
   <world name="default">
-  <model name="evacuation_zone.sdf">
+  <model name="evacuation_zone">
     <static>true</static>
     <link name="base_link">
       <collision name="collision">
