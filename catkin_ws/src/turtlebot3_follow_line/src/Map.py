@@ -232,7 +232,6 @@ class Neighbors:
 
             return compatible_tiles
 
-
 class Map:
     def __init__(self, size):
         self.size = size
@@ -351,10 +350,8 @@ class Map:
         if direction == 'right_to_up':
             return 'up_to_right'
 
-
     def choose_tile(self, possible_tiles):
         return  random.choice(possible_tiles)
-
 
     def place_tile(self, position, tile):
         self.grid[position[0]][position[1]] = tile
@@ -452,11 +449,8 @@ class Map:
 
         self.grid_aux[x][y] = neighbors.check_compatibility()
 
-
     def __str__(self):
         return "\n".join(" ".join(str(x) for x in row) for row in self.grid)
-
-
 
 # This function works but doesn't admit crossings, cycles and backedges
 def generate_path():
@@ -464,35 +458,46 @@ def generate_path():
     grid = [[None for _ in range(size)] for _ in range(size)]
     path = []
     position = (0,0)
+    banned_positions = []
     path.append(position)
     n_nodes = random.randint(15,35)
     selected_nodes = 1
     while selected_nodes < n_nodes:
         # Select some random nodes
-        possible_next_position = get_neighbors(position, path, size)
+        possible_next_position = get_neighbors(position, path, size, banned_positions)
         if not len(possible_next_position):
             print("No next positions possible")
             return path
+        
         position = random.choice(possible_next_position)
+        # If is a backedge (crossing with two green dots)
+        if position == path[len(path)-2]:
+            banned_positions.append(position)
+
         path.append(position)
         selected_nodes += 1
     return path
 
-def get_neighbors(position, path, size):
+def get_neighbors(position, path, size, banned_positions):
     x,y = position
     next_positions = []
+
     # Check upper
-    if (x-1,y) not in path and (x-1,y) != (0,0) and is_within_grid((x-1, y), size):
-        next_positions.append((x-1,y))
+    if (x-1,y) != (0,0) and is_within_grid((x-1, y), size) and (x-1,y) not in banned_positions:
+        if path.count((x-1,y)) < 2:
+            next_positions.append((x-1,y))
     # Check left
-    if (x,y-1) not in path and (x,y-1) != (0,0) and is_within_grid((x, y-1), size):
-        next_positions.append((x,y-1))    
+    if (x,y-1) != (0,0) and is_within_grid((x, y-1), size) and (x,y-1) not in banned_positions:
+        if path.count((x,y-1)) < 2:
+            next_positions.append((x,y-1)) 
     # Check right
-    if (x,y+1) not in path and (x,y+1) != (0,0) and is_within_grid((x, y+1), size):
-        next_positions.append((x,y+1))
+    if (x,y+1) != (0,0) and is_within_grid((x, y+1), size) and (x,y+1) not in banned_positions:
+        if path.count((x,y+1)) < 2:
+            next_positions.append((x,y+1))
     # Check bottom
-    if (x+1,y) not in path and (x+1,y) != (0,0) and is_within_grid((x+1, y), size):
-        next_positions.append((x+1,y))
+    if (x+1,y) != (0,0) and is_within_grid((x+1, y), size) and (x+1,y) not in banned_positions:
+        if path.count((x+1,y)) < 2:
+            next_positions.append((x+1,y))
     return next_positions
 
 def is_within_grid(position, size):
