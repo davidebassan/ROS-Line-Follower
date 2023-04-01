@@ -363,11 +363,11 @@ class Map:
         current_pos = (0, 0)
         self.grid[current_pos[0]][current_pos[1]] = 'down_to_up'
         current_pos = self.get_neighbor_position(current_pos, 'down_to_up')
-
-
+ 
         while True:
             self.check_neighbors(current_pos)
             possible_tiles = self.grid_aux[current_pos[0]][current_pos[1]]
+            
             if not possible_tiles:
                 break
             print(current_pos)
@@ -379,6 +379,7 @@ class Map:
                 tile = self.opposite_direction(tile)
             
             self.place_tile(current_pos, tile)
+            print(self.grid)
             current_pos = self.get_neighbor_position(current_pos, tile)
         return self.grid
                
@@ -455,5 +456,59 @@ class Map:
     def __str__(self):
         return "\n".join(" ".join(str(x) for x in row) for row in self.grid)
 
-maze = Map(5)
-print(maze)
+
+
+# This function works but doesn't admit crossings, cycles and backedges
+def generate_path():
+    size = 6
+    grid = [[None for _ in range(size)] for _ in range(size)]
+    path = []
+    position = (0,0)
+    path.append(position)
+    n_nodes = random.randint(15,35)
+    selected_nodes = 1
+    while selected_nodes < n_nodes:
+        # Select some random nodes
+        possible_next_position = get_neighbors(position, path, size)
+        if not len(possible_next_position):
+            print("No next positions possible")
+            return path
+        position = random.choice(possible_next_position)
+        path.append(position)
+        selected_nodes += 1
+    return path
+
+def get_neighbors(position, path, size):
+    x,y = position
+    next_positions = []
+    # Check upper
+    if (x-1,y) not in path and (x-1,y) != (0,0) and is_within_grid((x-1, y), size):
+        next_positions.append((x-1,y))
+    # Check left
+    if (x,y-1) not in path and (x,y-1) != (0,0) and is_within_grid((x, y-1), size):
+        next_positions.append((x,y-1))    
+    # Check right
+    if (x,y+1) not in path and (x,y+1) != (0,0) and is_within_grid((x, y+1), size):
+        next_positions.append((x,y+1))
+    # Check bottom
+    if (x+1,y) not in path and (x+1,y) != (0,0) and is_within_grid((x+1, y), size):
+        next_positions.append((x+1,y))
+    return next_positions
+
+def is_within_grid(position, size):
+    x,y = position
+    if x < 0 or x>= size or y<0 or y >= size:
+        return False
+    return True
+
+print(generate_path())
+
+
+
+
+
+
+
+
+
+
