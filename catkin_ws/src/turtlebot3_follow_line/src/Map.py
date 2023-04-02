@@ -452,7 +452,7 @@ class Map:
     def __str__(self):
         return "\n".join(" ".join(str(x) for x in row) for row in self.grid)
 
-# This function doesn't works since cycles could be illegal
+# This function doesn't works since backedges
 def generate_path():
     size = 6
     grid = [[None for _ in range(size)] for _ in range(size)]
@@ -473,7 +473,7 @@ def generate_path():
         position = random.choice(possible_next_position)
 
         # If is a backedge (crossing with two green dots)
-        if position == path[len(path)-2]:
+        if position == path[len(path)-1]:
             banned_positions.append(position)
         path.append(position)
         selected_nodes += 1
@@ -520,7 +520,7 @@ def is_valid_crossing_edge(path, position, next_positions):
                 fpbc_x, fpbc_y = from_position_bc
                 x, y = possible_position
                 # Check if the crossing is valid
-                if y == fpbc_y:
+                if y == fpbc_y or x == fpbc_x:
                     next_positions.remove(possible_position)
             else:
                 next_positions.remove(possible_position)
