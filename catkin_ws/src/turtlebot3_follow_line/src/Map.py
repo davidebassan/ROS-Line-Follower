@@ -520,7 +520,7 @@ def is_valid_crossing_edge(path, position, next_positions):
                 fpbc_x, fpbc_y = from_position_bc
                 x, y = possible_position
                 # Check if the crossing is valid
-                if y == fpbc_y or x == fpbc_x:
+                if y == fpbc_y and x!= fpbc_x:
                     next_positions.remove(possible_position)
             else:
                 next_positions.remove(possible_position)
