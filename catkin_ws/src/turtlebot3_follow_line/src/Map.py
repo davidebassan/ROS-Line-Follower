@@ -452,7 +452,7 @@ class Map:
     def __str__(self):
         return "\n".join(" ".join(str(x) for x in row) for row in self.grid)
 
-# This function works but doesn't admit crossings, cycles and backedges
+# This function doesn't works since cycles could be illegal
 def generate_path():
     size = 6
     grid = [[None for _ in range(size)] for _ in range(size)]
@@ -464,16 +464,17 @@ def generate_path():
     selected_nodes = 1
     while selected_nodes < n_nodes:
         # Select some random nodes
-        possible_next_position = get_neighbors(position, path, size, banned_positions)
+        banned_position, possible_next_position = get_neighbors(position, path, size, banned_positions)
         if not len(possible_next_position):
             print("No next positions possible")
             return path
         
+
         position = random.choice(possible_next_position)
+
         # If is a backedge (crossing with two green dots)
         if position == path[len(path)-2]:
             banned_positions.append(position)
-
         path.append(position)
         selected_nodes += 1
     return path
@@ -498,7 +499,10 @@ def get_neighbors(position, path, size, banned_positions):
     if (x+1,y) != (0,0) and is_within_grid((x+1, y), size) and (x+1,y) not in banned_positions:
         if path.count((x+1,y)) < 2:
             next_positions.append((x+1,y))
-    return next_positions
+
+    next_positions = is_valid_crossing_edge(path, position, next_positions)
+
+    return banned_positions, next_positions
 
 def is_within_grid(position, size):
     x,y = position
@@ -506,10 +510,26 @@ def is_within_grid(position, size):
         return False
     return True
 
+    
+def is_valid_crossing_edge(path, position, next_positions):
+    for possible_position in next_positions:
+        if possible_position in path:   
+            if path.index(position) > 1:
+                # Where are we from, before passing for the first time crossing edge
+                from_position_bc = path[path.index(position)]
+                fpbc_x, fpbc_y = from_position_bc
+                x, y = possible_position
+                # Check if the crossing is valid
+                if y == fpbc_y:
+                    next_positions.remove(possible_position)
+            else:
+                next_positions.remove(possible_position)
+    return next_positions
+
+
+
+
 print(generate_path())
-
-
-
 
 
 
