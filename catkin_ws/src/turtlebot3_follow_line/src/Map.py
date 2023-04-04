@@ -534,8 +534,6 @@ def is_valid_crossing_edge(path, position, next_positions):
                 if path.index(possible_position) > 1 and possible_position in next_positions:
                     next_positions.remove(possible_position)
                 
-                #
-
 
                 
             else:
