@@ -474,7 +474,7 @@ def generate_path():
 
         # If is a backedge (crossing with two green dots)
         if position == path[len(path)-1]:
-            banned_positions.append(position)
+            banned_positions.append(path[len(path)-1])
         path.append(position)
         selected_nodes += 1
     return path
@@ -512,16 +512,32 @@ def is_within_grid(position, size):
 
     
 def is_valid_crossing_edge(path, position, next_positions):
+    x, y = position
     for possible_position in next_positions:
         if possible_position in path:   
-            if path.index(position) > 1:
+            if path.index(possible_position) > 0:
+
+
                 # Where are we from, before passing for the first time crossing edge
                 from_position_bc = path[path.index(position)]
                 fpbc_x, fpbc_y = from_position_bc
-                x, y = possible_position
-                # Check if the crossing is valid
-                if y == fpbc_y and x!= fpbc_x:
+                possible_x, possible_y = possible_position
+
+                if path.index(position)+1 <= len(path)-1:
+                    # Get next position after crossing for the first time the cycle
+                    first_crossing_cycle_position = path[path.index(position)+1]
+                    # We cannot reply the same step, becouse we cannot legally exit from it
+                    if first_crossing_cycle_position in next_positions:
+                        next_positions.remove(first_crossing_cycle_position)  
+
+                # No more than 2 times the same position
+                if path.index(possible_position) > 1 and possible_position in next_positions:
                     next_positions.remove(possible_position)
+                
+                #
+
+
+                
             else:
                 next_positions.remove(possible_position)
     return next_positions
