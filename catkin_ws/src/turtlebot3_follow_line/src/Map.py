@@ -541,16 +541,6 @@ def is_valid_crossing_edge(path, position, next_positions):
     return next_positions
 
 
-def translate_to_model(path):
-    
-
-
-
-
-
-print(generate_path())
-
-
 
 
 
